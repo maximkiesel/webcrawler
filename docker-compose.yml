@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  elastichq:
+    image: elastichq/elasticsearch-hq
+    ports:
+    - "5000:5000"
+    ##http://elastic:admin@elasticsearch:9200
+
+  elasticsearch:
+    image: elasticsearch:7.16.3
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+    ports:
+      - target: 9200
+        published: 9200

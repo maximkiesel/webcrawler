@@ -1,0 +1,36 @@
+totalPages = driver.get(URL+SearchTerm)
+
+for i = 0 to len(totalPages)
+
+    # Wechsel auf die nächste Seite
+    driver.get(URL+SearchTerm+Page)
+    # extrahiere alle Artikel der aktuellen Seite
+    articles = driver.find_elements("articles from page i")
+
+    # es wird über alle Artikel die auf der Aktuelle Seite sind iteriert
+    for article in articles:
+        # aktueller Artikel link wird aufgerufen
+        driver.execute_script("click article link")
+
+        # Daten werden extrahiert
+        title =  driver.find_element("Articles")
+        abstract =  driver.find_element("Articles")
+        authors =  driver.find_element("Articles")
+        date =  driver.find_element("Articles")
+        link =  driver.find_element("Articles")
+
+        # Themen werden bestimmt
+        topics = topicModeler.modelTopics(title,abstract)
+
+        # Artikel wird ins richtige Format gebracht
+        article = (title,abstract,authors,date,link,topics)
+
+        # Daten werden gespeichert
+        es.index(article)
+        es.index(topics.names)
+
+        # Zurück zur Suchseite
+        driver.back()
+
+    END FOR
+END FOR

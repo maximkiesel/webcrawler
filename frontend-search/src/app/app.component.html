@@ -1,0 +1,39 @@
+
+<form class="search-container">
+  <mat-form-field>
+    <mat-label>Search Topic</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Search Topic"
+           matInput
+           [formControl]="searchControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="getSearchInput() + option">{{option}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <button class="search-button" mat-raised-button (click)="testSearchMethod()">Search</button>
+</form>
+
+<div class="document-list">
+  <ul *ngIf="documents.length > 0">
+
+    <p>total Articles: {{totalArticles}}</p>
+   <p>Total Pages: {{getTotalPages()}}</p>
+    <p>current Page: {{pageNumber}}</p>
+    <input type="text" [(ngModel)]="selectedPage" (keyup.enter)="goToPage()">
+
+    <li *ngFor="let document of documents" class="document-item">
+      <h3>{{ document.Title }}</h3>
+      <p><strong>Authors:</strong> {{ document.authors }}</p>
+      <p><strong>Date:</strong> {{ document.date }}</p>
+      <a [href]="document.link" target="_blank">{{ document.link }}</a>
+      <p><strong>Abstract:</strong> {{ document.abstract }}</p>
+    </li>
+  </ul>
+  <p *ngIf="documents.length === 0" class="no-results">No articles found.</p>
+</div>
+
+
